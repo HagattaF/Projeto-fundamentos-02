@@ -1,6 +1,6 @@
 #include <windows.h>
 #include <stdio.h>
-
+/*essa biblioteca e responsavel por pelo recurso de tabs do projeto*/
 HINSTANCE hInst;
 HWND hTab;
 
@@ -51,13 +51,13 @@ HWND pesquisarhistorico;
 
 TCITEM tie;
 
-void adicionarTab(HWND hwnd){
+void adicionarTab(HWND hwnd){ // funcao p/ adicionar tab ( uso da biblioteca windowns.h)
     hTab = GetDlgItem(hwnd,TAB);
     tie.mask = TCIF_TEXT;
     tie.pszText = "Assistindo";
     TabCtrl_InsertItem(hTab,0,&tie);
 
-    tie.pszText = "Séries";
+    tie.pszText = "SÃ©ries";
     TabCtrl_InsertItem(hTab,1,&tie);
 
     tie.pszText = "Historico";
@@ -66,7 +66,7 @@ void adicionarTab(HWND hwnd){
 
     return;
 }
-void tabSeries(HWND hwnd){
+void tabSeries(HWND hwnd){// funcao p/  tab series ( uso da biblioteca windowns.h)
     escolha = GetDlgItem(hwnd,LISTBOX_SERIES);
     pesquisar_box = GetDlgItem(hwnd, PESQUISAR_BOX);
     filtrar_box = GetDlgItem(hwnd, FILTRAR_BOX);
@@ -94,7 +94,7 @@ void tabSeries(HWND hwnd){
     pesquisar = GetDlgItem(hwnd,PESQUISAR);
     return;
 }
-void tabSeriesOcultar(HWND hwnd){
+void tabSeriesOcultar(HWND hwnd){/q// funcao p/ ocultar as tabs nao usadas naquele momento pelo usuario ( uso da biblioteca windowns.h)
     ShowWindow(pesquisar_box,0);
     ShowWindow(filtrar_box,0);
     ShowWindow(filtrar_combobox,0);
@@ -122,7 +122,7 @@ void tabSeriesOcultar(HWND hwnd){
     return;
 }
 
-void tabSeriesExibir(HWND hwnd){
+void tabSeriesExibir(HWND hwnd){ // funcao p/ exibir tab series ( uso da biblioteca windowns.h)
     ShowWindow(pesquisar_box,5);
     ShowWindow(filtrar_box,5);
     ShowWindow(filtrar_combobox,5);
@@ -149,7 +149,7 @@ void tabSeriesExibir(HWND hwnd){
     ShowWindow(pesquisar, 5);
     return;
 }
-void tabAssistindo(HWND hwnd){
+void tabAssistindo(HWND hwnd){ // funcao p/  tab assistindo ( uso da biblioteca windowns.h)
     assistindo_box = GetDlgItem(hwnd,ASSISTINDO_BOX);
     episodioatual_box = GetDlgItem(hwnd,EPISODIOATUAL_BOX);
     temporadaatual_box = GetDlgItem(hwnd,TEMPORADAATUAL_BOX);
@@ -161,7 +161,7 @@ void tabAssistindo(HWND hwnd){
     return;
 }
 
-void tabAssistindoExibir(HWND hwnd){
+void tabAssistindoExibir(HWND hwnd){ // funcao p/ exibir tab assistindo ( uso da biblioteca windowns.h)
     ShowWindow(assistindo_box,5);
     ShowWindow(episodioatual_box,5);
     ShowWindow(temporadaatual_box,5);
@@ -172,7 +172,7 @@ void tabAssistindoExibir(HWND hwnd){
     ShowWindow(listbox_assistindo,5);
     return;
 }
-void tabAssistindoOcultar(HWND hwnd){
+void tabAssistindoOcultar(HWND hwnd){// funcao p/ ocultar tab assistindo ( uso da biblioteca windowns.h)
     ShowWindow(assistindo_box,0);
     ShowWindow(episodioatual_box,0);
     ShowWindow(temporadaatual_box,0);
@@ -183,7 +183,7 @@ void tabAssistindoOcultar(HWND hwnd){
     ShowWindow(listbox_assistindo,0);
     return;
 }
-void tabHistorico(HWND hwnd){
+void tabHistorico(HWND hwnd){// funcao p/  tab historico ( uso da biblioteca windowns.h)
     historico_box = GetDlgItem(hwnd,HISTORICO_BOX);
     pesquisarhistorico_box = GetDlgItem(hwnd,PESQUISARHISTORICO_BOX);
     historico_text = GetDlgItem(hwnd,HISTORICO_TEXT);
@@ -194,7 +194,7 @@ void tabHistorico(HWND hwnd){
     pesquisarhistorico = GetDlgItem(hwnd,PESQUISARHISTORICO);
     return;
 }
-void tabHistoricoExibir(HWND hwnd){
+void tabHistoricoExibir(HWND hwnd){// funcao p/ exibir tab historico ( uso da biblioteca windowns.h)
     ShowWindow(historico_box,5);
     ShowWindow(pesquisarhistorico_box,5);
     ShowWindow(historico_text,5);
@@ -205,7 +205,7 @@ void tabHistoricoExibir(HWND hwnd){
     ShowWindow(pesquisarhistorico,5);
     return;
 }
-void tabHistoricoOcultar(HWND hwnd){
+void tabHistoricoOcultar(HWND hwnd){ // funcao p/ ocultar tab historico ( uso da biblioteca windowns.h)
     ShowWindow(historico_box,0);
     ShowWindow(pesquisarhistorico_box,0);
     ShowWindow(historico_text,0);
