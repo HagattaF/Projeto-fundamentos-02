@@ -1,7 +1,7 @@
 #ifndef IDC_STATIC
 #define IDC_STATIC (-1)
 #endif
-
+// definicao de id
 #define IDD_DIALOG1                             100
 #define IDR_MENU1                               118
 #define DIALOG_INSERIR                          120
