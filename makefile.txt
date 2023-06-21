@@ -1,0 +1,25 @@
+nosso programa nao foi usado mas se fosse usado ia ser assim:
+
+main.o: main.c
+	@echo Compiling main.c
+	gcc -c main.c -o main.o
+
+resource.o: resource.c
+	@echo Compiling resource.c
+	gcc -c resource.c -o resource.o
+
+historico.o: historico.c
+	@echo Compiling historico.c
+	gcc -c historico.c -o historico.o
+
+comboboxseries.o: comboboxseries.c
+	@echo Compiling comboboxseries.c
+	gcc -c comboboxseries.c -o comboboxseries.o
+
+base.o: base.c
+	@echo Compiling base.c
+	gcc -c base.c -o base.o
+
+main: main.o resource.o historico.o comboboxseries.o base.o
+	@echo Linking objects
+	gcc main.o resource.o historico.o comboboxseries.o base.o -o main
