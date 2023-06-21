@@ -1,0 +1,48 @@
+# depslib dependency file v1.0
+1687307555 source:c:\users\miche\onedrive\documentos\projeto oficial - copia\projetooficial\main.c
+	<windows.h>
+	<stdio.h>
+	<commctrl.h>
+	<unistd.h>
+	<stdlib.h>
+	<string.h>
+	<locale.h>
+	"resource.h"
+	"tab.h"
+	"comboboxseries.h"
+	"base.h"
+	"treeview.h"
+	"historico.h"
+
+1687308414 c:\users\miche\onedrive\documentos\projeto oficial - copia\projetooficial\resource.h
+
+1687213241 c:\users\miche\onedrive\documentos\projeto oficial - copia\projetooficial\tab.h
+	<windows.h>
+	<stdio.h>
+
+1687192433 c:\users\miche\onedrive\documentos\projeto oficial - copia\projetooficial\comboboxseries.h
+	<windows.h>
+
+1687306118 c:\users\miche\onedrive\documentos\projeto oficial - copia\projetooficial\base.h
+	<stdio.h>
+	<windows.h>
+	<string.h>
+	<stdbool.h>
+	<locale.h>
+
+1687289268 c:\users\miche\onedrive\documentos\projeto oficial - copia\projetooficial\treeview.h
+	<string.h>
+	<windows.h>
+
+1687298666 source:c:\users\miche\onedrive\documentos\projeto oficial - copia\projetooficial\resource.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
+1687306855 c:\users\miche\onedrive\documentos\projeto oficial - copia\projetooficial\historico.h
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<string.h>
+
