@@ -1,4 +1,4 @@
-nosso programa nao foi usado mas se fosse usado ia ser assim:
+nosso programa nao foi utilizado mafile devido a biblioteca windowns.h mas se fosse usado ia ser assim:
 
 main.o: main.c
 	@echo Compiling main.c
