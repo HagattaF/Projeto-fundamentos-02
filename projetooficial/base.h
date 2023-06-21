@@ -14,7 +14,7 @@ typedef struct{
     int* quantidadeEpTemporada;
     int duracaoMediaEp;
     int episodiosSomados;
-}Serie;
+}Serie;// estrutura p/ series
 
 typedef struct{
     char classificao[50];
@@ -22,9 +22,9 @@ typedef struct{
     char quantidadeEpTemporada[400][50];
     char duracaoMediaEp[50];
     char episodiosSomados[50];
-}SerieString;
+}SerieString;// estrutura p/series
 
-HWND listbox_maratonar;
+HWND listbox_maratonar; // parte grafica p/ exibir o maratonar 
 
 char nomeselecionado[50];
 char nomeselecionado2[50];
@@ -55,7 +55,7 @@ int existeDado = 1;
 char nometemporadas[50][50];
 
 
-bool carrega_CSV() {
+bool carrega_CSV() { // carrega dados arquivo csv
     setlocale(LC_ALL, "Portuguese_Brazil.1252");
     serie = (Serie*)malloc(1*sizeof(Serie));
     FILE* arquivo = fopen("streaming_db.csv", "r");
@@ -66,7 +66,7 @@ bool carrega_CSV() {
 
     char linha[256];
     while (fgets(linha, sizeof(linha), arquivo)) {
-        // Extrair os dados separados por vírgula
+        // Extrair os dados separados por vÃ­rgula
         char* token = strtok(linha, ",");
         if (token == NULL) {
             printf("Erro ao processar linha do arquivo codigo.\n");
@@ -115,7 +115,7 @@ bool carrega_CSV() {
         }
         serie[tamanhoDados].quantidadeTemporadas = atoi(token);
 
-        // Extrair os dados de quantidade de episódios separados por espaço
+        // Extrair os dados de quantidade de episÃ³dios separados por espaÃ§o
         token = strtok(NULL, " ");
 
         serie[tamanhoDados].quantidadeEpTemporada = (int*)malloc(serie[tamanhoDados].quantidadeTemporadas * sizeof(int));
@@ -144,21 +144,21 @@ bool carrega_CSV() {
     return true;
 }
 
-bool carregarDados(){
+bool carregarDados(){ // carrega os dados 
     FILE* arquivo_series = fopen("series.bin","rb");
     if (arquivo_series == NULL) {
         printf("Arquivo de series nao encontrado. Os dados serao iniciados do zero.\n");
         existeDado = 0;
         return false;
     }
-    fread(&tamanhoDados,sizeof(int),1,arquivo_series);
+    fread(&tamanhoDados,sizeof(int),1,arquivo_series); // le numero de series 
 
 
-    serie = (Serie*)malloc((tamanhoDados + 1)* sizeof(Serie));
+    serie = (Serie*)malloc((tamanhoDados + 1)* sizeof(Serie));// aloca
 
     for (int contador = 0; contador < tamanhoDados;contador++){
-        fread(&serie[contador],sizeof(Serie),1,arquivo_series);
-        serie[contador].quantidadeEpTemporada = (int*)malloc(serie[contador].quantidadeTemporadas * sizeof(int));
+        fread(&serie[contador],sizeof(Serie),1,arquivo_series);// le series
+        serie[contador].quantidadeEpTemporada = (int*)malloc(serie[contador].quantidadeTemporadas * sizeof(int));//aloca ep
         for (int i = 0; i < serie[contador].quantidadeTemporadas;i++){
             fread(&serie[contador].quantidadeEpTemporada[i],sizeof(int),1,arquivo_series);
         }
@@ -167,17 +167,17 @@ bool carregarDados(){
     return;
 }
 
-bool salvar_dados(){
+bool salvar_dados(){//salva os dados 
     FILE* arquivo_series = fopen("series.bin", "wb");
     if (arquivo_series == NULL) {
         printf("Erro ao abrir o arquivo de series.\n");
         return false;
     }
 
-    fwrite(&tamanhoDados, sizeof(int), 1, arquivo_series); // Grava o número de séries
+    fwrite(&tamanhoDados, sizeof(int), 1, arquivo_series); // Grava o nÃºmero de sÃ©ries
 
     for (int i = 0; i < tamanhoDados; i++) {
-        fwrite(&serie[i], sizeof(Serie), 1, arquivo_series); // Grava cada série
+        fwrite(&serie[i], sizeof(Serie), 1, arquivo_series); // Grava cada sÃ©rie
         for (int contador = 0; contador < serie[i].quantidadeTemporadas; contador++){
             fwrite(&serie[i].quantidadeEpTemporada[contador],sizeof(int),1,arquivo_series);
         }
@@ -188,28 +188,27 @@ bool salvar_dados(){
     return true;
 }
 
-void treeviewPreparar(){
+void treeviewPreparar(){ //funcao  adionar temporadas na parte grafica 
     limpartreeview();
      for (int contador = 0; contador < serie[selecionadop].quantidadeTemporadas;contador++){
                 //printf("serie selecionado %d\n",serie[selecionadop].quantidadeTemporadas);
                 sprintf(treeviewTp[contador],"%d",contador + 1);
                 if (strcmp(treeviewTp[contador],"\0") != 0){
-                    strcat(treeviewTp[contador],"° Temporada");
+                    strcat(treeviewTp[contador],"Â° Temporada");
                     printf("%s\n",treeviewTp[contador]);
                 }
             }
     return;
 }
 
-void converterString(){
+void converterString(){ // conversÃ£o de string
     //seriestring.quantidadeEpTemporada[50] = (char*) malloc (1*sizeof(seriestring.quantidadeEpTemporada));
     for (int contador = 0; contador < tamanhoDados; contador++){
         if (strcasecmp(nomeselecionado,serie[contador].titulo) == 0){
             sprintf(seriestring.classificao,"%d",serie[contador].classificacao);
             sprintf(seriestring.quantidadeTemporadas,"%d",serie[contador].quantidadeTemporadas);
             strcat(seriestring.quantidadeTemporadas," Temporadas");
-            //seriestring.quantidadeEpTemporada[50] = (char*) malloc (serie[contador].quantidadeTemporadas*sizeof(char));
-            //printf("%d\n",serie[contador].quantidadeTemporadas * sizeof(seriestring.quantidadeEpTemporada));
+          
             for (int i = 0; i < serie[contador].quantidadeTemporadas; i++){
                 sprintf(seriestring.quantidadeEpTemporada[i],"%d",serie[contador].quantidadeEpTemporada[i]);
                 strcat(seriestring.quantidadeEpTemporada[i]," Episodios");
@@ -225,7 +224,7 @@ void converterString(){
 
 }
 
-void limpartreeview(){
+void limpartreeview(){ // limpa a parte grafica da temporadas 
     for (int contador = 0; contador < tamanhoDados; contador++){
         treeviewTp[contador][50] = "\0";
         seriestring.quantidadeEpTemporada[contador][50] = "\0";
@@ -233,7 +232,7 @@ void limpartreeview(){
     return;
 }
 
-void mostrarListbox(HWND hwnd, LPARAM lParam) {
+void mostrarListbox(HWND hwnd, LPARAM lParam) { //exibe as listas do programa 
     HWND escolha = GetDlgItem(hwnd,LISTBOX_SERIES);
     HWND listbox_excluir  = GetDlgItem(hwnd,LISTBOX_EXCLUIR);
     HWND listbox_alterar  = GetDlgItem(hwnd,LISTBOX_ALTERAR);
@@ -244,7 +243,7 @@ void mostrarListbox(HWND hwnd, LPARAM lParam) {
     }
     return;
 }
-void filtrarGenero(int selecionar_genero){
+void filtrarGenero(int selecionar_genero){// funcao para filtrar o genero
     generos(selecionar_genero);
     SendMessage(listbox_series,LB_RESETCONTENT,0,0);
     for (int contador = 0; contador < tamanhoDados; contador++){
@@ -255,7 +254,7 @@ void filtrarGenero(int selecionar_genero){
 
     return;
 }
-void Pesquisar(){
+void Pesquisar(){// funÃ§ao pesquisar 
     SendMessage(listbox_series,LB_RESETCONTENT,0,0);
     for (int contador = 0; contador < tamanhoDados;contador++){
         if (stricmp(serie[contador].titulo,pesquisartext) == 0){
@@ -265,7 +264,7 @@ void Pesquisar(){
 
 }
 
-void PesquisarHistorico(){
+void PesquisarHistorico(){//pesquisar historico
     SendMessage(listbox_historico,LB_RESETCONTENT,0,0);
     for (int contador = 0; contador < tamanhoDados;contador++){
         if (stricmp(serie[contador].titulo,pesquisartext) == 0){
@@ -274,7 +273,7 @@ void PesquisarHistorico(){
     }
 
 }
-void generos(int selecionar_genero) {
+void generos(int selecionar_genero) {// funcao selecionar genero
     switch (selecionar_genero) {
         case 1:
             strcpy(textcombobox, "Acao");
@@ -566,16 +565,16 @@ void generosAlterar(int genero) {
     }
 }
 
-void serieMaisepisodios(HWND hwnd) {
+void serieMaisepisodios(HWND hwnd) { // funcao para series para maratonar 
     HWND listbox_maratonar = GetDlgItem(hwnd,LISTBOX_MARATONAR);
-    int max_episodios[5] = {0}; // Vetor com os 5 maiores números de episódios
-    char* series_mais_episodios[5] = {NULL}; // Vetor com os títulos das 5 séries com mais episódios
+    int max_episodios[5] = {0}; // Vetor com os 5 maiores nÃºmeros de episÃ³dios
+    char* series_mais_episodios[5] = {NULL}; // Vetor com os tÃ­tulos das 5 sÃ©ries com mais episÃ³dios
 
     for (int i = 0; i < tamanhoDados; i++) {
         int menor_episodio = max_episodios[0];
         int posicao_menor_episodio = 0;
 
-        // Verifica se a série atual tem mais episódios do que alguma das séries já encontradas
+        // Verifica se a sÃ©rie atual tem mais episÃ³dios do que alguma das sÃ©ries jÃ¡ encontradas
         for (int j = 0; j < 5; j++) {
             if (serie[i].quantidadeTemporadas > max_episodios[j]) {
                 menor_episodio = max_episodios[j];
@@ -584,7 +583,7 @@ void serieMaisepisodios(HWND hwnd) {
             }
         }
 
-        // Se a série atual tem mais episódios do que alguma das séries já encontradas, atualiza o vetor de títulos
+        // Se a sÃ©rie atual tem mais episÃ³dios do que alguma das sÃ©ries jÃ¡ encontradas, atualiza o vetor de tÃ­tulos
         if (serie[i].quantidadeTemporadas > menor_episodio) {
             for (int j = 4; j > posicao_menor_episodio; j--) {
                 max_episodios[j] = max_episodios[j - 1];
@@ -601,12 +600,12 @@ void serieMaisepisodios(HWND hwnd) {
     }
 }
 
-void generos_mais_assistidos(HWND hwnd) {
+void generos_mais_assistidos(HWND hwnd) {// funcao que exibe as series do genero mais assistido
     HWND listbox_generosmais = GetDlgItem(hwnd,LISTBOX_GENEROSMAIS);
-    // Cria um vetor auxiliar para contagem de gêneros
+    // Cria um vetor auxiliar para contagem de gÃªneros
     int* contagemGeneros = (int*)calloc(tamanhoDados, sizeof(int));
 
-    // Percorre todas as séries e incrementa a contagem de cada gênero
+    // Percorre todas as sÃ©ries e incrementa a contagem de cada gÃªnero
     for (int i = 0; i < tamanhoDados; i++) {
         contagemGeneros[i] = 0;
         for (int j = 0; j < tamanhoDados; j++) {
@@ -616,7 +615,7 @@ void generos_mais_assistidos(HWND hwnd) {
         }
     }
 
-    // Encontra o gênero mais assistido (maior contagem)
+    // Encontra o gÃªnero mais assistido (maior contagem)
     int maxContagem = 0;
     for (int i = 0; i < tamanhoDados; i++) {
         if (contagemGeneros[i] > maxContagem) {
@@ -624,15 +623,15 @@ void generos_mais_assistidos(HWND hwnd) {
         }
     }
 
-    // Imprime os gêneros mais assistidos (com contagem igual à maior contagem)
-    printf("Gêneros mais assistidos:\n");
+    // Imprime os gÃªneros mais assistidos (com contagem igual Ã  maior contagem)
+    printf("GÃªneros mais assistidos:\n");
     for (int i = 0; i < tamanhoDados; i++) {
         if (contagemGeneros[i] == maxContagem){
             SendMessage(listbox_generosmais, LB_ADDSTRING, 0, (LPARAM)serie[i].titulo);
         }
     }
 
-    // Libera a memória alocada
+    // Libera a memÃ³ria alocada
     free(contagemGeneros);
 }
 
