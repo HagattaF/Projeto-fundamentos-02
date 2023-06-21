@@ -16,10 +16,10 @@
 
 int auxiliar = 0;
 
-
+//janela parte criativa maratonar
 BOOL CALLBACK maratonar(HWND hwnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
     switch(uMsg){
-        case WM_INITDIALOG:{
+        case WM_INITDIALOG:{ // iniciar janela
             SetWindowText(hwnd, "Series para Maratonar");
             serieMaisepisodios(hwnd);
         }
@@ -29,7 +29,7 @@ BOOL CALLBACK maratonar(HWND hwnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
         }
         break;
         return TRUE;
-        case WM_CLOSE:{
+        case WM_CLOSE:{//fechar janela
             EndDialog(hwnd,0);
         }
         break;
@@ -39,9 +39,10 @@ BOOL CALLBACK maratonar(HWND hwnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
     return FALSE;
 }
 
+//janela parte criativa
 BOOL CALLBACK generosmais(HWND hwnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
     switch(uMsg){
-        case WM_INITDIALOG:{
+        case WM_INITDIALOG:{//iniciar janela
             SetWindowText(hwnd, "Generos Mais Assistidos");
             generos_mais_assistidos(hwnd);
         }
@@ -51,7 +52,7 @@ BOOL CALLBACK generosmais(HWND hwnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
         }
         break;
         return TRUE;
-        case WM_CLOSE:{
+        case WM_CLOSE:{//fechar janela
             EndDialog(hwnd,0);
         }
         break;
@@ -61,16 +62,17 @@ BOOL CALLBACK generosmais(HWND hwnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
     return FALSE;
 }
 
+//janela para assistir
 BOOL CALLBACK editarhistorico(HWND hwnd,UINT uMsg, WPARAM wParam, LPARAM lParam){
     switch(uMsg){
-        case WM_INITDIALOG:{
+        case WM_INITDIALOG:{//iniciar janela
 
         }
         break;
         return TRUE;
         case WM_COMMAND:{
             switch(LOWORD(wParam)){
-                case ASSISTIR_1:{
+                case ASSISTIR_1:{//assistir 1 episodio
                      for (int contador = 0; contador < tamanhoHistorico;contador++){
                         if (strcmp(nomeselecionado,historico[contador].titulo) == 0){
                             cod = contador;
@@ -98,7 +100,7 @@ BOOL CALLBACK editarhistorico(HWND hwnd,UINT uMsg, WPARAM wParam, LPARAM lParam)
                 PostMessage(hwnd,WM_CLOSE,0,0);
                 break;
 
-                case CONFIRMARATUAL_HISTORICO:{
+                case CONFIRMARATUAL_HISTORICO:{ // assistir personalizado
 
                     for (int contador = 0; contador < tamanhoHistorico;contador++){
                         if (strcmp(nomeselecionado,historico[contador].titulo) == 0){
@@ -150,21 +152,22 @@ BOOL CALLBACK editarhistorico(HWND hwnd,UINT uMsg, WPARAM wParam, LPARAM lParam)
     return FALSE;
 }
 
+//janela auxiliar para alterar episodios
 BOOL CALLBACK NovoDialogo4(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
     switch (uMsg){
-        case WM_INITDIALOG:{
+        case WM_INITDIALOG:{//iniciar janela
             auxiliar = 0;
             SetWindowText(hwnd, "Alterar Episodios");
             HWND auxiliar_label_alterar = GetDlgItem(hwnd,AUXILIAR_LABEL_ALTERAR);
             serie[selecionadop].quantidadeEpTemporada = (int*)malloc(serie[selecionadop].quantidadeTemporadas * sizeof(int));
             if (serie[selecionadop].quantidadeTemporadas == NULL){
-                MessageBox(hwnd,"Não Inseriu a quantidade de temporadas!","Erro",MB_OK);
+                MessageBox(hwnd,"NÃ£o Inseriu a quantidade de temporadas!","Erro",MB_OK);
                 PostMessage(hwnd,WM_CLOSE,0,0);
             }else{
                 HWND auxiliar_label = GetDlgItem(hwnd,AUXILIAR_LABEL);
                 for (int contador = 0; contador < serie[selecionadop].quantidadeTemporadas;contador++){
                     sprintf(nometemporadas[contador],"%d",contador + 1);
-                    strcat(nometemporadas[contador],"° Temporada");
+                    strcat(nometemporadas[contador],"Â° Temporada");
                 }
                 SendMessage(auxiliar_label_alterar,WM_SETTEXT,0,(LPARAM)nometemporadas[0]);
             }
@@ -173,9 +176,9 @@ BOOL CALLBACK NovoDialogo4(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
         }
         return TRUE;
 
-         case WM_COMMAND:{
+         case WM_COMMAND:{//comandos
             switch (LOWORD(wParam)){
-                case IDOK_ALTERAR:{ // realloc o mesmo do csv
+                case IDOK_ALTERAR:{ 
                     HWND auxiliar_label_alterar = GetDlgItem(hwnd,AUXILIAR_LABEL_ALTERAR);
                     SendMessage(auxiliar_label_alterar,WM_SETTEXT,0,(LPARAM)nometemporadas[auxiliar + 1]);
                     HWND episodios_inserir_alterar = GetDlgItem(hwnd,EPISODIOS_INSERIR_ALTERAR);
@@ -195,7 +198,7 @@ BOOL CALLBACK NovoDialogo4(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
             break;
         }
         return TRUE;
-        case WM_CLOSE:{
+        case WM_CLOSE:{//fechar janela
             EndDialog(hwnd,0);
         }
         return TRUE;
@@ -203,21 +206,22 @@ BOOL CALLBACK NovoDialogo4(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
     return FALSE;
 }
 
+//janela auxiliar para inserir episodios
 BOOL CALLBACK NovoDialogo3(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
     switch (uMsg){
-        case WM_INITDIALOG:
+        case WM_INITDIALOG://iniciar janela 
             auxiliar = 0;
             SetWindowText(hwnd, "Inserir Episodios");
             serie = (Serie*) realloc(serie, (tamanhoDados + 1)*sizeof(Serie));
             serie[tamanhoDados].quantidadeEpTemporada = (int*)malloc(serie[tamanhoDados].quantidadeTemporadas * sizeof(int));
             if (serie[tamanhoDados].quantidadeTemporadas == NULL){
-                MessageBox(hwnd,"Não Inseriu a quantidade de temporadas!","Erro",MB_OK);
+                MessageBox(hwnd,"NÃ£o Inseriu a quantidade de temporadas!","Erro",MB_OK);
                 PostMessage(hwnd,WM_CLOSE,0,0);
             }else{
                 HWND auxiliar_label = GetDlgItem(hwnd,AUXILIAR_LABEL);
                 for (int contador = 0; contador < serie[tamanhoDados].quantidadeTemporadas;contador++){
                     sprintf(nometemporadas[contador],"%d",contador + 1);
-                    strcat(nometemporadas[contador],"° Temporada");
+                    strcat(nometemporadas[contador],"Â° Temporada");
                 }
                 SendMessage(auxiliar_label,WM_SETTEXT,0,(LPARAM)nometemporadas[0]);
             }
@@ -227,17 +231,17 @@ BOOL CALLBACK NovoDialogo3(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 
         case WM_COMMAND:{
             switch (LOWORD(wParam)){
-                case IDOK:{ // realloc o mesmo do csv
-                    HWND hwndDest = FindWindow(NULL, "Inserir Série");
+                case IDOK:{ // inserir episodio
+                    HWND hwndDest = FindWindow(NULL, "Inserir SÃ©rie");
                     HWND inserir_botao = GetDlgItem(hwnd,INSERIR_BOTAO);
                     HWND auxiliar_label = GetDlgItem(hwnd,AUXILIAR_LABEL);
                     SendMessage(auxiliar_label,WM_SETTEXT,0,(LPARAM)nometemporadas[auxiliar + 1]);
-                    //printf("contando: %d\n",auxiliar);
+                    
                     HWND episodios_inserir = GetDlgItem(hwnd,EPISODIOS_INSERIR);
                     char inserir_episodios[250];
                     GetDlgItemText(hwnd,EPISODIOS_INSERIR,inserir_episodios,10);
                     serie[tamanhoDados].quantidadeEpTemporada[auxiliar] = atoi(inserir_episodios);
-                    //printf("ep: %d\n",serie[tamanhoDados].quantidadeEpTemporada[auxiliar]);
+                    
                     serie[tamanhoDados].episodiosSomados += serie[tamanhoDados].quantidadeEpTemporada[auxiliar];
                     if ((auxiliar + 1) == serie[tamanhoDados].quantidadeTemporadas){
 
@@ -254,7 +258,7 @@ BOOL CALLBACK NovoDialogo3(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
         }
 
         return TRUE;
-        case WM_CLOSE:{
+        case WM_CLOSE:{//fechar janela
             EndDialog(hwnd,0);
         }
         return TRUE;
@@ -263,18 +267,19 @@ BOOL CALLBACK NovoDialogo3(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
     return FALSE;
 }
 
+//janela inserir serie
 BOOL CALLBACK NovoDialogo(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
     switch (uMsg){
-        case WM_INITDIALOG:
-            SetWindowText(hwnd, "Inserir Série");
+        case WM_INITDIALOG: // iniciar janela
+            SetWindowText(hwnd, "Inserir SÃ©rie");
             AdicionarGeneroComboBoxInserir(hwnd,lParam);
             HWND inserir_botao = GetDlgItem(hwnd,INSERIR_BOTAO);
             ShowWindow(inserir_botao,0);
             break;
 
         return TRUE;
-
-        case WM_MY_CUSTOM_MESSAGE:{
+                            
+        case WM_MY_CUSTOM_MESSAGE:{ // comando personalizado para aparecer o botao inserir
             HWND inserir_botao = GetDlgItem(hwnd,INSERIR_BOTAO);
             ShowWindow(inserir_botao,5);
             break;
@@ -283,7 +288,7 @@ BOOL CALLBACK NovoDialogo(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 
         case WM_COMMAND:{
             switch (LOWORD(wParam)){
-                case CONFIRMAR_BOTAO:{
+                case CONFIRMAR_BOTAO:{ // comando confirmar_botao
                     HWND temporadas_inserir = GetDlgItem(hwnd,TEMPORADAS_INSERIR);
                     char digitarTemporadas[20];
                     serie = (Serie*) realloc(serie, (tamanhoDados + 1)*sizeof(Serie));
@@ -295,7 +300,7 @@ BOOL CALLBACK NovoDialogo(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 
                 break;
 
-                case INSERIR_BOTAO:{
+                case INSERIR_BOTAO:{// inserir serie
                     char extrair[50];
                     HWND genero_inserir = GetDlgItem(hwnd,GENERO_INSERIR);
                     HWND inserir_botao = GetDlgItem(hwnd,INSERIR_BOTAO);
@@ -324,7 +329,7 @@ BOOL CALLBACK NovoDialogo(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
                 }
                 break;
 
-                case MB_OK:{
+                case MB_OK:{ // nao precisa mais ta ae
                     //PostMessage(hwnd,WM_CLOSE,0,0);
                 }
                 break;
@@ -334,7 +339,7 @@ BOOL CALLBACK NovoDialogo(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
         }
         return TRUE;
 
-        case WM_CLOSE:{
+        case WM_CLOSE:{//fechar janela
 
             EndDialog(hwnd,0);
 
@@ -345,10 +350,11 @@ BOOL CALLBACK NovoDialogo(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
     return FALSE;
 }
 
+//janela de excluir series
 BOOL CALLBACK NovoDialogo1(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
     switch (uMsg){
-        case WM_INITDIALOG:
-            SetWindowText(hwnd, "Excluir Série");
+        case WM_INITDIALOG: // iniciar janela
+            SetWindowText(hwnd, "Excluir SÃ©rie");
             mostrarListbox(hwnd,lParam);
             break;
 
@@ -356,21 +362,21 @@ BOOL CALLBACK NovoDialogo1(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 
         case WM_COMMAND:{
             switch (LOWORD(wParam)){
-                case LISTBOX_EXCLUIR:{
+                case LISTBOX_EXCLUIR:{ // controle listbox
                     if (HIWORD(wParam) == LBN_SELCHANGE){
                         HWND listbox_excluir = GetDlgItem(hwnd,LISTBOX_EXCLUIR);
                         int selecionadoExcluir = SendMessage(listbox_excluir,LB_GETCURSEL,0,0);
-                        printf("\n%d\n",selecionadoExcluir);
+                        
                         SendMessage(listbox_excluir, LB_GETTEXT, selecionadoExcluir, (LPARAM)nomeselecionado);
-                        printf("\n%s\n",nomeselecionado);
+                        
 
                     }
                     break;
                 }
-                case BOTAO_EXCLUIR:{
+                case BOTAO_EXCLUIR:{ // botao para excluir 
                     for (int contador = 0; contador < tamanhoDados; contador++){
                         if (strcmp(nomeselecionado,serie[contador].titulo) == 0){
-                            printf("FUNCIONA CARALHO");
+                    
                             int indice = contador;
                             for (int contador2 = indice; contador2 < tamanhoDados -1; contador2++){
                                 serie[contador2] = serie[contador2 + 1];
@@ -384,7 +390,7 @@ BOOL CALLBACK NovoDialogo1(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
                     }
                 }
                 break;
-                case BOTAO_PESQUISAR_EXCLUIR:{
+                case BOTAO_PESQUISAR_EXCLUIR:{//botao que pesquisa na listbox
                     HWND listbox_excluir = GetDlgItem(hwnd,LISTBOX_EXCLUIR);
                     GetDlgItemText(hwnd,LABEL_EXCLUIR,pesquisartext,32);
                     Pesquisar(serie);
@@ -392,7 +398,7 @@ BOOL CALLBACK NovoDialogo1(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
                         SendMessage(listbox_excluir,LB_RESETCONTENT,0,0);
                         SendMessage(listbox_excluir, LB_ADDSTRING, 0, (LPARAM)encontrado);
                     }else{
-                        MessageBox(hwnd,"Não está na lista!","Erro",MB_OK);
+                        MessageBox(hwnd,"NÃ£o estÃ¡ na lista!","Erro",MB_OK);
                     }
                 }
                 break;
@@ -401,7 +407,7 @@ BOOL CALLBACK NovoDialogo1(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
         }
 
         return TRUE;
-        case WM_CLOSE:{
+        case WM_CLOSE:{//fechar janela
             EndDialog(hwnd,0);
         }
         return TRUE;
@@ -410,10 +416,11 @@ BOOL CALLBACK NovoDialogo1(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
     return FALSE;
 }
 
+//janela alterar serie
 BOOL CALLBACK NovoDialogo2(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
     switch (uMsg){
-        case WM_INITDIALOG:
-            SetWindowText(hwnd, "Alterar Série");
+        case WM_INITDIALOG: // iniciar janelas
+            SetWindowText(hwnd, "Alterar SÃ©rie");
             mostrarListbox(hwnd,lParam);
             HWND nome_alterar = GetDlgItem(hwnd,NOME_ALTERAR);
             HWND classificacao_alterar = GetDlgItem(hwnd,CLASSIFICACAO_ALTERAR);
@@ -427,7 +434,7 @@ BOOL CALLBACK NovoDialogo2(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 
         case WM_COMMAND:{
             switch (LOWORD(wParam)){
-                case LISTBOX_ALTERAR:{
+                case LISTBOX_ALTERAR:{ // controle da listbox alterar
                     if (HIWORD(wParam) == LBN_SELCHANGE){
                         HWND nome_alterar = GetDlgItem(hwnd,NOME_ALTERAR);
                         HWND classificacao_alterar = GetDlgItem(hwnd,CLASSIFICACAO_ALTERAR);
@@ -455,7 +462,7 @@ BOOL CALLBACK NovoDialogo2(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
                         }
                     }
                 }
-                break;
+                break;//botao pesquisar da janela alterar
                 case BOTAO_PESUISAR_ALTERAR:{
                     HWND listbox_alterar = GetDlgItem(hwnd,LISTBOX_ALTERAR);
                     GetDlgItemText(hwnd,LABEL_PESQUISAR,pesquisartext,32);
@@ -464,13 +471,13 @@ BOOL CALLBACK NovoDialogo2(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
                         SendMessage(listbox_alterar,LB_RESETCONTENT,0,0);
                         SendMessage(listbox_alterar, LB_ADDSTRING, 0, (LPARAM)encontrado);
                     }else{
-                        MessageBox(hwnd,"Não está na lista!","Erro",MB_OK);
+                        MessageBox(hwnd,"NÃ£o estÃ¡ na lista!","Erro",MB_OK);
                     }
 
                 }
                 break;
 
-                case CONFIRMAR_ALTERAR:{
+                case CONFIRMAR_ALTERAR:{ //botao para confirmar a quantidade de temporadas
                     HWND temporadas_alterar = GetDlgItem(hwnd,TEMPORADAS_ALTERAR);
                     printf("FUNCIONA DESGRAcA\n");
                     char digitarTemporadas[20];
@@ -480,7 +487,7 @@ BOOL CALLBACK NovoDialogo2(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
                     DialogBox(GetModuleHandle(NULL),MAKEINTRESOURCE(IDD_DIALOG5),NULL,(DLGPROC)NovoDialogo4);
                 }
                 break;
-                case BOTAO_ALTERAR:{
+                case BOTAO_ALTERAR:{ // botao alterar
                     char extrair[50];
                     printf("\n%d\n",selecionadop);
                     HWND genero_alterar = GetDlgItem(hwnd,GENERO_ALTERAR);
@@ -507,7 +514,7 @@ BOOL CALLBACK NovoDialogo2(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
             break;
         }
         return TRUE;
-        case WM_CLOSE:{
+        case WM_CLOSE:{ // fechar janela
             EndDialog(hwnd,0);
         }
         return TRUE;
@@ -686,7 +693,7 @@ BOOL CALLBACK DlgMain(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
                         SendMessage(listbox_series,LB_RESETCONTENT,0,0);
                         SendMessage(escolha, LB_ADDSTRING, 0, (LPARAM)encontrado);
                     }else{
-                        MessageBox(hwnd,"Não está na lista!","Erro",MB_OK);
+                        MessageBox(hwnd,"NÃ£o estÃ¡ na lista!","Erro",MB_OK);
                     }
 
                 }
@@ -775,10 +782,10 @@ BOOL CALLBACK DlgMain(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
                         printf("Erro ao abrir o arquivo para exportar os dados.\n");
                         return;
                     }
-                    // Escreve o cabeçalho do arquivo CSV
-                    fprintf(arquivo, "Código,Título,Gênero,Classificação,Plataforma,Quantidade de Temporadas,Duração Média do Episódio\n");
+                    // Escreve o cabeÃ§alho do arquivo CSV
+                    fprintf(arquivo, "CÃ³digo,TÃ­tulo,GÃªnero,ClassificaÃ§Ã£o,Plataforma,Quantidade de Temporadas,DuraÃ§Ã£o MÃ©dia do EpisÃ³dio\n");
 
-                    // Escreve os dados de cada série no arquivo CSV
+                    // Escreve os dados de cada sÃ©rie no arquivo CSV
                     for (int i = 0; i < tamanhoDados; i++) {
                         fprintf(arquivo, "%d,%s,%s,%d,%s,%d,%d,", serie[i].codigo,
                                 serie[i].titulo, serie[i].genero, serie[i].classificacao,
@@ -811,7 +818,7 @@ BOOL CALLBACK DlgMain(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
                         SendMessage(listbox_historico,LB_RESETCONTENT,0,0);
                         SendMessage(listbox_historico, LB_ADDSTRING, 0, (LPARAM)encontrado);
                     }else{
-                        MessageBox(hwnd,"Não está na lista!","Erro",MB_OK);
+                        MessageBox(hwnd,"NÃ£o estÃ¡ na lista!","Erro",MB_OK);
                     }
                 }
                 break;
@@ -842,10 +849,10 @@ BOOL CALLBACK DlgMain(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 }
 
 
-// como a base da biblioteca windows.h não pode ter int main() entao WinMain é o main da interface grafica
+// como a base da biblioteca windows.h nÃ£o pode ter int main() entao WinMain Ã© o main da interface grafica
 int APIENTRY WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,INT nShowCmd){
     hInst = hInstance;//definir instancia da janela
-    setlocale(LC_ALL, "Portuguese"); // definir janela em português
+    setlocale(LC_ALL, "Portuguese"); // definir janela em portuguÃªs
     InitCommonControls();//definir controles
     DialogBox(hInst,MAKEINTRESOURCE(IDD_DIALOG1),NULL,(DLGPROC)DlgMain);//chamar primeiro dialogo
     return 0;
